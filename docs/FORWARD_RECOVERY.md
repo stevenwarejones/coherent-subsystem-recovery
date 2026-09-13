@@ -22,7 +22,9 @@ input fidelities.
 
 The optimal-recovery theorem is still stronger — its high-score line is `(3f−1)/2`. This circuit
 is weaker not because its slope is smaller but because its **infidelity coefficient is larger**:
-`1 − r_UV ≈ (9/4)(1−f)` versus the sharp `(3/2)(1−f)`. The gap between the sharp curve and the
+in general `1 − r_UV ≤ (9/4)(1−f)` versus the sharp `1 − R ≤ (3/2)(1−f)` (the asymptotic
+*equality* `1 − r_UV = (9/4)(1−f) + o(1−f)` is the phase-family example below, not general
+circuit behavior). The gap between the sharp curve and the
 selected guarantee `g` is piecewise:
 ```
 0            for 0   <= f <= 2/3,

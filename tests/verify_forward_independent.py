@@ -52,7 +52,7 @@ for t in [0.3,0.1,0.01]:
     ratio=(1-r)/(1-p); ratio_pred=9/16*(3+math.cos(t))
     worst_phase=max(worst_phase,abs(p-p_pred),abs(r-r_pred),abs(ratio-ratio_pred))
     print(f" t={t}: p={p:.6f}(pred {p_pred:.6f}) r={r:.6f}(pred {r_pred:.6f}) (1-r)/(1-p)={ratio:.5f}(pred {ratio_pred:.5f})")
-assert worst_phase < 1e-9, ("phase-family closed forms disagree", worst_phase)
+assert worst_phase < 1e-9, ("E-FORWARD-PHASE phase-family closed forms disagree", worst_phase)
 # ratio -> 9/4 as t->0 (anchored slope); check it approaches from the assertion above
 assert abs(9/16*(3+1) - 9/4) < 1e-12, "limiting slope must be 9/4"
 # (4) selection: switch threshold and ordering, asserted (numerical corroboration).

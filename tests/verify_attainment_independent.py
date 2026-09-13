@@ -56,7 +56,7 @@ print("classical: ||rho_A - I/2|| =", f"{np.max(np.abs(rhoA - I2/2)):.2e}",
       "| ||C - I/3|| =", f"{np.max(np.abs(C_c - I2/3)):.2e}",
       "| f_opt =", f"{f_c:.6f}")
 assert np.max(np.abs(rhoA - I2 / 2)) < 1e-12, "classical endpoint: reference marginal must be I/2"
-assert np.max(np.abs(C_c - I2 / 3)) < 1e-12, "classical endpoint: C must be I/3"
+assert np.max(np.abs(C_c - I2 / 3)) < 1e-12, "E-ATTAINMENT-C classical endpoint: C must be I/3"
 # separable c-q state: best entanglement fidelity by reading the flag and preparing conj state
 # R = max over flag-readout of Bell overlap; c-q separable => R <= 1/2, and reading flag attains 1/2
 # achieved: for each flag g the A-state is g rho0 g^dag (pure), prepare its transpose -> overlap 1

@@ -92,8 +92,10 @@ def H_op(U, V, d):
             + np.kron(X @ Z, U.conj().T @ V - V.conj().T @ U)) / 3.0
 
 
-def bell_overlap_after_channel(Q, rho, d):
-    """Recovery channel E has Choi Q (on A=qubit tensor M). Achieved Bell overlap = 1/2 Tr(Q rho)."""
+def bell_overlap_formula(Q, rho, d):
+    """The Bell-effect FORMULA 1/2 Tr(Q rho) (THEOREM sec 4). This is the closed form the
+    applied-channel computation below is checked against; it is not itself a channel application.
+    (The recovery is the adjoint of the CP unital map whose Choi matrix is Q; see recovery_kraus.)"""
     return 0.5 * np.real(np.trace(Q @ rho))
 
 
@@ -162,7 +164,7 @@ for trial in range(200):
     # Apply the ACTUAL recovery channel (Kraus operators built from Q), then compare its
     # measured Bell overlap both to the 1/2 Tr(Q rho) formula and to the promised bound.
     R_applied = bell_overlap_applied(Q, rho, d)
-    R_formula = bell_overlap_after_channel(Q, rho, d)
+    R_formula = bell_overlap_formula(Q, rho, d)
     worst_formula = max(worst_formula, abs(R_applied - R_formula))
     worst_gap = min(worst_gap, R_applied - (3 * p - 1) / 2)
 print("max |(Q-S) - H| over 200 random (U,V,dim)      :", f"{worst_S:.2e}")
@@ -194,7 +196,7 @@ def bad_overlap_no_conj(Q, rho, d):
 try:
     ov_bad, tp_bad = bad_overlap_no_conj(Q, rho, d)
     tp_broken = np.max(np.abs(tp_bad - np.eye(d))) > 1e-9
-    match_broken = abs(ov_bad - bell_overlap_after_channel(Q, rho, d)) > 1e-9
+    match_broken = abs(ov_bad - bell_overlap_formula(Q, rho, d)) > 1e-9
     assert tp_broken or match_broken, "MUTATION_NOT_CAUGHT: dropping the conjugation still passed"
     print("PASS convention mutation caught: dropping the Kraus conjugation breaks TP/overlap")
 except AssertionError as e:

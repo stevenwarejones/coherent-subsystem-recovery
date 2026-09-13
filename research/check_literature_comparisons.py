@@ -35,7 +35,7 @@ fopt = sp.nsimplify(sp.Rational(1, 2) * (sp.trace(sp.sqrt(C))) ** 2)   # C scala
 assert p == sp.Rational(5, 6), ("p", p)
 assert C == sp.Rational(5, 12) * I2, ("C should be (5/12) I", C)
 assert fopt == sp.Rational(5, 6), ("f_opt", fopt)
-assert Rpg == sp.Rational(43, 64) and Ppg == sp.Rational(25, 32), (Rpg, Ppg)
+assert Rpg == sp.Rational(43, 64) and Ppg == sp.Rational(25, 32), ("E-BCW-VALUES", Rpg, Ppg)
 assert fopt - Ppg == sp.Rational(5, 6) - sp.Rational(25, 32) > 0, "f_opt must strictly exceed P_pg"
 print("PASS BCW: p=f_opt=5/6, C=(5/12)I, R_pg=43/64, P_pg=25/32 < 5/6, so f <= P_pg is FALSE")
 
@@ -83,7 +83,7 @@ for name in ("X", "Z", "Y"):
     O = sp.diag(*signs[name])                       # diagonal memory observable on the 4-flag
     obs = sp.kronecker_product(refP[name], O)       # reference Pauli (x) memory observable
     corrs[name] = sp.nsimplify(sp.trace(rhoAM * obs))
-    assert corrs[name] == 1 / sp.sqrt(3), (name, corrs[name])
+    assert corrs[name] == 1 / sp.sqrt(3), ("E-STEERING-CORRELATION", name, corrs[name])
 Ssum = sp.nsimplify(sum(corrs.values()))
 assert Ssum == sp.sqrt(3), ("S", Ssum)
 # The state is separable (block-diagonal c-q), so best Bell overlap (singlet fraction) is 1/2.
