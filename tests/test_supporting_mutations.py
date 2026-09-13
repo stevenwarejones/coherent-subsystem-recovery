@@ -78,6 +78,29 @@ must_fail("tests/verify_attainment_independent.py",
           [("assert np.max(np.abs(C_c - I2 / 3)) < 1e-12", "assert np.max(np.abs(C_c - I2 / 2)) < 1e-12")],
           TARGETS["tests/verify_attainment_independent.py"], "E-ATTAINMENT-C")
 
+# Regression coverage for the two new PR #2 verifiers (they raise ValueError with a label).
+# Baseline: both pass unmodified in this layout.
+for rel, ok in [("proofs/verify_forward_curve.py", "Scope: universal proof"),
+                ("proofs/verify_controller_decoder.py", "CERTIFIED ARITHMETIC")]:
+    rc, out, err = run_text(rel, original(rel))
+    assert rc == 0 and ok in out, ("baseline must pass", rel, err[-800:])
+print("PASS baseline: the two new verifiers pass unmodified in the harness layout")
+
+# Forward-curve overlap identity: perturbing the identity coefficient breaks OVERLAP_IDENTITY.
+must_fail("proofs/verify_forward_curve.py",
+          [("add(mul(adj(L),L),scale(I,-1)", "add(mul(adj(L),L),scale(I,-2)")],
+          "Scope: universal proof", "OVERLAP_IDENTITY")
+
+# Controller dual: wrong Q identity denominator breaks the exact characteristic polynomial.
+must_fail("proofs/verify_controller_decoder.py",
+          [("Q=(1+c)**2/16*s.eye(4)", "Q=(1+c)**2/15*s.eye(4)")],
+          "CERTIFIED ARITHMETIC", "EXACT_SPECTRUM")
+
+# Controller endpoint: dropping the factor 2 in J0 = 2 Phi (x) I breaks trace preservation.
+must_fail("proofs/verify_controller_decoder.py",
+          [("J0=s.kronecker_product(2*Phi,I)", "J0=s.kronecker_product(Phi,I)")],
+          "CERTIFIED ARITHMETIC", "TP")
+
 # Controls: an UNRELATED failure must NOT be mistaken for a successful mutation rejection.
 # For each target and its marker, prepend an unrelated crash and confirm the marker is ABSENT
 # from stderr -- i.e. must_fail's marker requirement would (correctly) refuse to accept it.

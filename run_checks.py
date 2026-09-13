@@ -8,7 +8,9 @@ required check has already passed.
 Required checks:
     proofs/verify_sharp_recovery.py       exact free-unitary certificate, R >= (3f-1)/2   [stdlib only]
     proofs/verify_full_curve.py           elementary segments completing R_min(f)          [SymPy]
-    proofs/verify_forward_recovery.py     forward two-query guarantee r_UV >= (9f-5)/4      [SymPy]
+    proofs/verify_forward_recovery.py     forward two-query guarantee (affine tangent)      [SymPy]
+    proofs/verify_forward_curve.py        exact forward-circuit curve h(f)=max(0,9f-1)^2/64 [SymPy+NumPy]
+    proofs/verify_controller_decoder.py   controller-only minimax obstruction on [7/9,1]    [SymPy]
     tests/test_certificate_mutations.py   intended-reason corruption cases                 [stdlib only]
 
 The central exact certificate and the mutation cases need only the standard
@@ -28,6 +30,8 @@ REQUIRED = [
     ("Exact free-unitary certificate (stdlib)", ROOT / "proofs" / "verify_sharp_recovery.py"),
     ("Elementary full-curve segments (SymPy)", ROOT / "proofs" / "verify_full_curve.py"),
     ("Forward-only two-query recovery guarantee (SymPy)", ROOT / "proofs" / "verify_forward_recovery.py"),
+    ("Exact forward-circuit curve h(f) (SymPy + NumPy)", ROOT / "proofs" / "verify_forward_curve.py"),
+    ("Controller-only minimax obstruction (SymPy)", ROOT / "proofs" / "verify_controller_decoder.py"),
     ("Certificate corruption / mutation cases (stdlib)", ROOT / "tests" / "test_certificate_mutations.py"),
 ]
 
@@ -46,9 +50,9 @@ def main():
         run(label, path)
     print(
         "\nAll required checks passed: the exact certificate for R >= (3f-1)/2, the "
-        "elementary segments completing R_min(f) = max{1/4, 3f/4, (3f-1)/2}, the "
-        "forward-only two-query guarantee r_UV >= (9f-5)/4, and the intended-reason "
-        "mutation cases.\n"
+        "elementary segments completing R_min(f) = max{1/4, 3f/4, (3f-1)/2}, the exact "
+        "forward-circuit curve h(f) = max(0, 9f-1)^2/64 and its controller-only minimax "
+        "optimality on [7/9,1], and the intended-reason mutation cases.\n"
         "This is exact-arithmetic verification, not human expert review or a priority "
         "claim. See docs/VERIFICATION.md for what these checks do and do not establish."
     )

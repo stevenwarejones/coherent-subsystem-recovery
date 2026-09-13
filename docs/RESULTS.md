@@ -50,10 +50,12 @@ constructions attain every segment (addressed dimension ≤ 6 overall).
   with `R >= f`.
 
 An explicit **two-query forward circuit** (one controlled-`U`, one controlled-`V`, no inverses)
-gives an *implementable* guarantee `r_UV >= (9f-5)/4` under the extra assumption of reusable
-controlled forward access; see `docs/FORWARD_RECOVERY.md`. It is weaker than the existential sharp
-map — a larger infidelity coefficient, `9/4` rather than `3/2` — and is kept as a separate
-research addition.
+has the exact worst-case curve `r_UV >= h(f) = max{0,9f-1}^2/64`, under the extra assumption of
+reusable controlled forward access; see `docs/FORWARD_RECOVERY.md`. This is minimax-optimal for
+the fixed query stage followed by controller-only decoding on `[7/9,1]`, so that architecture
+cannot reach the sharp `(3f-1)/2` even with score-dependent decoding; it is weaker than the
+existential sharp map (infidelity coefficient `9/4` vs `3/2`) and is kept as a separate research
+addition. The old affine `(9f-5)/4` is the tangent to `h`.
 
 ## Claim ledger
 
@@ -69,8 +71,9 @@ research addition.
 | 8 | four-Pauli `R >= f` | ideal Paulis | FULL_CURVE.md "Four Pauli branches" | `proofs/verify_full_curve.py` | comparison/benchmark, **not** a novelty claim |
 | 9 | `f <= P_pg` is **false** (BCW is a different score) | — | PRIOR_ART.md | `research/check_literature_comparisons.py` | exact counterexample, verified |
 | 10 | sharp bound strictly beats BCW+Renes on `[2/3,1)` | — | PRIOR_ART.md | `research/check_literature_comparisons.py` | exact, verified |
-| 11 | forward two-query circuit: `r_UV >= (9f-5)/4`, via `T†T+20I-4L†L=J†J` | PROTOCOL + **reusable controlled forward access** to `U,V` | FORWARD_RECOVERY.md | `proofs/verify_forward_recovery.py`; `tests/verify_forward_independent.py` | exact identity re-derived independently; **extra access assumption**; not the sharp map (slope 9/4 vs 3/2) |
-| 12 | selectable implementable guarantee `g(f)=max{1/4,3f/4,(9f-5)/4}`, switch at `f=5/6` | as row 11 | FORWARD_RECOVERY.md | `proofs/verify_forward_recovery.py`; `tests/verify_forward_independent.py` | exact; gap to the sharp curve is `0` on `[0,2/3]`, `(3f-2)/4` on `[2/3,5/6]`, `3(1-f)/4` on `[5/6,1]`, max `1/8` at `f=5/6`, `0` at `f=1` |
+| 11 | forward two-query circuit exact curve `r_UV >= h(f) = max{0,9f-1}^2/64`, via `L†L=I+B†T+T†B` + Cauchy–Schwarz | PROTOCOL + **reusable controlled forward access** to `U,V` | FORWARD_RECOVERY.md | `proofs/verify_forward_curve.py`; `tests/verify_forward_curve_independent.py` | identity + curve + attainment re-derived independently; **extra access assumption**; affine `(9f-5)/4` is its tangent |
+| 12 | controller-only minimax `= h(f)` on `[7/9,1]` (fixed query stage + arbitrary controller channel, even score-dependent) | as row 11 | FORWARD_RECOVERY.md | `proofs/verify_controller_decoder.py`; `tests/verify_forward_curve_independent.py` | exact `8×8` PSD dual + endpoint uniqueness re-derived independently; **not** a bound on all two-query circuits; `(3f-1)/2 - h(f) = 3(1-f)(27f-11)/64 > 0` |
+| 13 | selectable implementable guarantee `g(f)=max{1/4,3f/4,h(f)}`, switch at `f_c=(11+4√7)/27` | as row 11 | FORWARD_RECOVERY.md | `proofs/verify_forward_curve.py` | exact; gap to the sharp curve max `(4√7-7)/36 ≈ 0.0995` at `f_c`, `0` at `f=1`; a guarantee, not a proved minimax over the three-decoder family |
 
 Legend of evidence types: **exact** = exact-arithmetic machine check; **prose** = a
 mathematical argument checked by reading, not by a script; **numeric** = floating-point

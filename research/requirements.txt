@@ -1,0 +1,5 @@
+# Optional numerical discovery only (research/explore_controller_decoder.py).
+# NOT needed for any verification; the exact results do not depend on running it.
+numpy>=1.24
+cvxpy>=1.4
+clarabel>=0.6

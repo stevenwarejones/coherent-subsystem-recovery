@@ -49,8 +49,14 @@ jobs:
         run: python proofs/verify_full_curve.py
       - name: Forward-only two-query recovery guarantee
         run: python proofs/verify_forward_recovery.py
+      - name: Exact forward-circuit curve h(f)
+        run: python proofs/verify_forward_curve.py
+      - name: Controller-only minimax obstruction
+        run: python proofs/verify_controller_decoder.py
       - name: Independent forward-recovery re-derivation
         run: python tests/verify_forward_independent.py
+      - name: Independent forward-curve / controller re-derivation
+        run: python tests/verify_forward_curve_independent.py
       - name: Independent exact re-derivation (exact stdlib arithmetic)
         run: python tests/verify_independent.py
       - name: Numeric instantiation corroboration (fixed seed)

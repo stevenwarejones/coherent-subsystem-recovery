@@ -3,12 +3,14 @@
 ## One command
 
 ```sh
-python run_checks.py          # standard library + SymPy; no solver, no network
+python run_checks.py          # SymPy + NumPy (declared in requirements.txt); no solver, no network
 ```
 
-This runs the four required checks (exact certificate, elementary full-curve segments, the
-forward two-query guarantee, and the mutation cases) fail-fast, streaming output. It exits
-nonzero on any failure and prints its success sentence only after all four pass.
+This runs the six required checks (exact certificate, elementary full-curve segments, the
+forward two-query guarantee, the exact forward-circuit curve, the controller-only minimax
+obstruction, and the mutation cases) fail-fast, streaming output. It exits nonzero on any
+failure and prints its success sentence only after all six pass. The exact certificate and the
+mutation cases need only the standard library; the four SymPy/NumPy checks complete the curve.
 
 ## The checks, by tier
 
@@ -53,11 +55,22 @@ nonzero on any failure and prints its success sentence only after all four pass.
 - **`proofs/verify_full_curve.py`** — the elementary `3f/4` and `1/4` segments, endpoints,
   interpolation, two-branch and four-branch comparisons.
 - **`proofs/verify_forward_recovery.py`** — the forward-only two-query guarantee: the one-square
-  free-unitary identity `T†T+20I−4L†L=J†J`, the circuit's isometry/Bell-effect conventions on
-  exact instances (incl. complex nonsymmetric unitaries), the phase-family slope, and the
-  selection threshold. See `FORWARD_RECOVERY.md`. Refuses `-O`.
-- **`tests/verify_forward_independent.py`** — an independent from-scratch NumPy re-derivation of that identity
-  (random `U,V`, dims 1–5), `r_UV ≥ (9p−5)/4`, the phase family, and `forward ≤ sharp`.
+  free-unitary identity `T†T+20I−4L†L=J†J` (affine tangent), the circuit's isometry/Bell-effect
+  conventions on exact instances (incl. complex nonsymmetric unitaries), the phase family, and the
+  old selection threshold. See `FORWARD_RECOVERY.md`. Refuses `-O`.
+- **`proofs/verify_forward_curve.py`** — the *exact* forward-circuit curve `h(f)=max(0,9f−1)²/64`:
+  the overlap identity `L†L=I+B†T+T†B`, the curve and its affine tangent, the switch `f_c` and
+  maximum gap, 500 random matrix/circuit cases (dims 1,2,3,4,6), 101 phase instances, reversed
+  order, low-score endpoint, and a changed-constant rejection control (SymPy + NumPy).
+- **`proofs/verify_controller_decoder.py`** — the controller-only minimax obstruction on
+  `[7/9,1]`: endpoint-unique Choi matrix, the exact `D_x` spectrum and PSD interval, matching
+  primal/dual, score conversion, rational-phase reconstructions, and two rejection controls
+  (SymPy; runs under `-O` via explicit exceptions).
+- **`tests/verify_forward_independent.py`** — an independent from-scratch NumPy re-derivation of the
+  one-square identity (random `U,V`, dims 1–5), `r_UV ≥ (9p−5)/4`, the phase family, `forward ≤ sharp`.
+- **`tests/verify_forward_curve_independent.py`** — an independent re-derivation (imports nothing
+  from the two checkers above) of the overlap identity and exact curve, the tangent and switch,
+  and the controller `D_x` spectrum, `Tr(Q_x)` and the sharp-minus-`h` gap.
 - **`research/check_attainment.py`** — symbolic endpoint/mixture arithmetic for sharpness.
 - **`research/check_literature_comparisons.py`** — the two exact counterexamples and the
   comparison table from `PRIOR_ART.md` (BCW failed substitution; independent-observable
