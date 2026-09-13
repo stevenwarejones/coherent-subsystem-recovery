@@ -27,6 +27,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 
 REQUIRED = [
+    ("Robust forward-query obstruction and mutations (stdlib)", ROOT / "proofs" / "verify_robust_forward_obstruction.py"),
     ("Exact free-unitary certificate (stdlib)", ROOT / "proofs" / "verify_sharp_recovery.py"),
     ("Elementary full-curve segments (SymPy)", ROOT / "proofs" / "verify_full_curve.py"),
     ("Forward-only two-query recovery guarantee (SymPy)", ROOT / "proofs" / "verify_forward_recovery.py"),
@@ -52,7 +53,8 @@ def main():
         "\nAll required checks passed: the exact certificate for R >= (3f-1)/2, the "
         "elementary segments completing R_min(f) = max{1/4, 3f/4, (3f-1)/2}, the exact "
         "forward-circuit curve h(f) = max(0, 9f-1)^2/64 and its controller-only minimax "
-        "optimality on [7/9,1], and the intended-reason mutation cases.\n"
+        "optimality on [7/9,1], the robust forward-query obstruction, "
+        "and the intended-reason mutation cases.\n"
         "This is exact-arithmetic verification, not human expert review or a priority "
         "claim. See docs/VERIFICATION.md for what these checks do and do not establish."
     )

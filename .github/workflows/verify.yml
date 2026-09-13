@@ -80,3 +80,24 @@ jobs:
         run: python -m pip install -r requirements.txt -r requirements-optional.txt
       - name: Alternate certificate route (Sylvester / python-flint)
         run: python proofs/verify_alternate.py
+
+  forward-query-results:
+    # Robust forward-query obstruction: exact stdlib core, then seeded corroboration.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Exact robust obstruction and mutations (stdlib)
+        run: python proofs/verify_robust_forward_obstruction.py
+      - name: Refuse optimized Python
+        run: |
+          if python -O proofs/verify_robust_forward_obstruction.py > refusal.txt 2>&1; then exit 1; fi
+          grep -Fx 'Run without -O' refusal.txt
+      - name: Install numerical-only dependencies
+        run: python -m pip install -r requirements.txt scipy
+      - name: Physical Born corroboration
+        run: python tests/verify_robust_forward_bridge.py
+      - name: Exact supporting identities
+        run: python research/check_forward_reductions.py

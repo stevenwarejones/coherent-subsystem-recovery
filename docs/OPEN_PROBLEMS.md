@@ -53,15 +53,22 @@ the specified query words and final Bell decoder retained, cannot meet the `f = 
 except as the original circuit up to global phase (this is not a statement about arbitrary
 preparation plus arbitrary decoding).
 
-**Still open.** A forward implementation of the *sharp* `(3f−1)/2` guarantee must leave the
-restricted architecture proved here — for example by changing the query stage, or by allowing the
-recovery to access more than the controller (keeping the query stage but letting a later operation
-touch `M` is explicitly outside the proof). The next search will change the controller processing
-*between* the two calls. The exclusion is also silent on coherent order control with a different
-joint decoder and on additional queries; a lower bound over those needs a new argument, and
-unitary-inversion query lower bounds do not transfer without a reduction. Everything here carries
-the **extra access assumption** — reusable controlled forward access to `U,V`, stronger than
-one-shot observation.
+**Larger class now addressed, subject to the stated prose review.** The
+[robust full-history certificate](ROBUST_FORWARD_OBSTRUCTION.md) excludes
+universal sharp recovery with at most three active calls under fixed or
+preselected random order, even with arbitrary intermediate controller processing
+and score-selected coefficients. The VUVUV slot result is not an exclusion of
+all five-call patterns. At least four active calls are necessary in this class;
+four have not been shown sufficient.
+
+**Still open.** The [finite-query model](FORWARD_QUERY_MODEL.md) defines the
+universal score-independent search and its proposed support-specific complete
+moment formulation. Its compactness argument does not cover score-selected
+controller families. Neither a universally sharp finite-forward-query recovery
+nor an obstruction for every finite count is established. Outcome-dependent
+query order, indefinite causal order, extra target operations, and postselection
+are outside the stated obstruction. Controlled oracle reuse remains an extra
+access assumption beyond the original coherent test.
 
 ## 4. Robustness to trusted-control error
 
@@ -76,3 +83,17 @@ on the score (a lower confidence limit `f_L`) is a separate, stateable substitut
 
 Infinite-dimensional domains are not claimed. Multi-time / sequential versions, and other
 target sets beyond `(I,X,Z)`, are unexplored here.
+
+## Compilation prerequisite for control-error work
+
+The supplied control-error handoff assumes a weighted LCU/adjoint-access
+compiler absent from this checkout. Its full ideal construction and resource
+accounting should be integrated and reviewed before promoting the conditional
+27 eta_max error budget. Passing its qubit simulation is not a generic compiler
+proof. No such hardware-noise guarantee is added in this change.
+
+## Fixed off-diagonal completion scaling
+
+[Two exact examples](COMPLETION_OBSTRUCTION.md) exclude every universal constant
+prescription `Q_01 = k H_01`. Coupled, nonlinear, or larger-block completion
+reductions remain open; the historical novelty gate remains unresolved.
