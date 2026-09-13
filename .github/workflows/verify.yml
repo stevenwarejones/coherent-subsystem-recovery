@@ -1,0 +1,70 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  core:
+    # The central exact certificate and mutation cases: standard library only.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Core certificate (no dependencies)
+        run: python proofs/verify_sharp_recovery.py
+      - name: Certificate mutations (no dependencies)
+        run: python tests/test_certificate_mutations.py
+      - name: Refuses -O
+        run: |
+          if python -O proofs/verify_sharp_recovery.py; then
+            echo "verifier ran under -O; it must refuse" && exit 1
+          else
+            echo "correctly refused -O"
+          fi
+
+  supporting:
+    # SymPy/NumPy supporting checks and the full-curve segments.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python: ["3.11", "3.12"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install
+        run: python -m pip install -r requirements.txt
+      - name: Full-curve elementary segments
+        run: python proofs/verify_full_curve.py
+      - name: Independent exact re-derivation (mine, stdlib arithmetic)
+        run: python tests/verify_independent.py
+      - name: Numeric instantiation corroboration (fixed seed)
+        run: python tests/verify_numeric_instantiation.py
+      - name: Attainability reconstruction
+        run: python tests/verify_attainment_independent.py
+      - name: Literature comparison arithmetic
+        run: python research/check_literature_comparisons.py
+
+  alternate:
+    # Second, independent verification route over python-flint. Optional.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install optional
+        run: python -m pip install -r requirements.txt -r requirements-optional.txt
+      - name: Alternate certificate route (Sylvester / python-flint)
+        run: python proofs/verify_alternate.py

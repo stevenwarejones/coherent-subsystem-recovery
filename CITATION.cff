@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: >-
+  This repository is an AI-produced research artifact that has not been reviewed
+  by a human domain expert and makes no priority claim. If you refer to it, please
+  cite it as a software/preprint artifact and read docs/PRIOR_ART.md and
+  docs/VERIFICATION.md for scope and status.
+title: "Coherent Subsystem Recovery: exact sharp recovery bounds from a three-branch coherent test"
+abstract: >-
+  Exact certificates and matching constructions for a sharp, dimension-independent
+  qubit-recovery bound R >= (3f-1)/2 (completed to R_min(f) = max{1/4, 3f/4, (3f-1)/2})
+  from a three-branch coherent test of an addressed subsystem, where a later decoder may
+  use an arbitrary finite-dimensional quantum bypass. Verified in exact arithmetic; not
+  human-reviewed; no historical priority asserted.
+type: software
+authors:
+  - given-names: Steven Ware
+    family-names: Jones
+repository-code: "https://github.com/stevenwarejones/coherent-subsystem-recovery"
+license: MIT
+keywords:
+  - quantum-information
+  - quantum-memory
+  - approximate-quantum-error-correction
+  - recovery-channel
+  - sum-of-squares
+  - noncommutative-optimization
+  - reproducible-research
