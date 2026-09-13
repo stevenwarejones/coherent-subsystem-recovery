@@ -86,7 +86,9 @@ so at least one of the two instances scores `≤ h(f)`, matched by the existing 
 sharp high-score bound even with score-dependent decoding** — a finite analytic obstruction, not
 a failed search. It is *not* a lower bound for all two-query circuits: it fixes the query stage
 and decodes only from the controller. (Below `x = 1/2` the certificate stops; no claim is made
-below `f = 7/9`.)
+below `f = 7/9`.) The full operational derivation — the query stage, the Choi objective
+`r = ½Tr(σᵀJ)`, endpoint uniqueness, and the minimax quantifiers — is in
+[`docs/CONTROLLER_DECODER.md`](CONTROLLER_DECODER.md).
 
 Two restricted dead ends are also closed exactly: reversing the query order (fourth Pauli `ZX`,
 `T_rev = (I+C)(I+B)`) and any classical randomization of the two orders have the same curve `h`
@@ -133,12 +135,17 @@ T†T + 20 I − 4 L†L = J†J,     so     r_UV = (9p − 5)/4 + Tr(ρ J†J)/
 Only unitarity of `B, C` is used. The overlap proof in **Result** above is stronger — it gives
 the exact quadratic curve `h`, of which this line is the tangent.
 
-## The exact curve is attained only by these instances; it bounds THIS circuit only
+## An attaining family and the scope of the bound
 
 The phase family `ρ = Φ⁺`, `U = e^{it}X`, `V = e^{it}Z` attains `r_UV = (1+cos t)²/4 = (9f−1)²/64`,
-so `h` is the exact pointwise curve of this circuit, not merely a lower bound. These instances
-have optimal abstract recovery `R = 1` throughout; `h` bounds *this circuit* (and the
-controller-only architecture around it), not other circuits or the subsystem's recoverability.
+so `h` is the exact pointwise curve of this circuit, not merely a lower bound. This is *an*
+attaining family, **not** an exhaustive classification of the equality instances: the separable
+rank-two state `ρ_AM = (Φ⁺ + Ψ⁺)/2` with `U = −X`, `V = −Z` also lies on the curve
+(`r_UV = 0 = h`, with `f = 1/18` under the identity test decoder, `p = 1/9`; `ρ_A = I/2` and a
+bypass purifies it), and it is not in the pure Bell family above. So the curve is attained, but by
+more than one kind of instance. These attaining instances have optimal abstract recovery `R = 1`,
+so `h` bounds *this circuit* — and, on `[7/9,1]`, the controller-only architecture around it — not
+other circuits or the subsystem's recoverability.
 
 ## Additional access assumption (do not hide this)
 

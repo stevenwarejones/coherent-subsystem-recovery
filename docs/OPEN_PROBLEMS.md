@@ -45,18 +45,23 @@ controlled-`V`, two ancillas, no inverses, no knowledge of `U,V`, no bypass acce
 *exact* worst-case curve `r_UV ≥ h(f) = max{0,9f−1}^2/64`, with equality attained at every score
 (the old affine `(9f−5)/4` is its tangent). Moreover, replacing the final Bell-basis decode with
 an *arbitrary controller-only CPTP channel*, even one chosen from the scalar score, gives minimax
-exactly `h(f)` on `[7/9,1]` (an `8×8` PSD dual plus endpoint uniqueness), so **that architecture
-cannot reach `(3f−1)/2`** — the gap is `3(1−f)(27f−11)/64 > 0`. Reversing or classically
-randomizing the query order, and merely reweighting the four branch amplitudes, are also closed.
+exactly `h(f)` on `[7/9,1]` (an `8×8` PSD dual plus endpoint uniqueness; full proof in
+`docs/CONTROLLER_DECODER.md`), so **that architecture cannot reach `(3f−1)/2`** — the gap is
+`3(1−f)(27f−11)/64 > 0` on `[7/9,1)` (it vanishes at `f = 1`). Reversing or classically randomizing
+the query order is also closed; and changing only the four **fixed preparation amplitudes**, with
+the specified query words and final Bell decoder retained, cannot meet the `f = 1` requirement
+except as the original circuit up to global phase (this is not a statement about arbitrary
+preparation plus arbitrary decoding).
 
-**Still open.** A forward implementation of the *sharp* `(3f−1)/2` guarantee, if one exists, must
-change the query stage itself — the next model is an intermediate controller operation *between*
-the two calls (the present obstruction fixes the query stage and decodes only from the
-controller, so it does not exclude this). The exclusion is also silent on coherent order control
-with a different joint decoder, additional queries, and recovery operations that retain access to
-`M`; a lower bound over those needs a new argument, and unitary-inversion query lower bounds do
-not transfer without a reduction. Everything here carries the **extra access assumption** —
-reusable controlled forward access to `U,V`, stronger than one-shot observation.
+**Still open.** A forward implementation of the *sharp* `(3f−1)/2` guarantee must leave the
+restricted architecture proved here — for example by changing the query stage, or by allowing the
+recovery to access more than the controller (keeping the query stage but letting a later operation
+touch `M` is explicitly outside the proof). The next search will change the controller processing
+*between* the two calls. The exclusion is also silent on coherent order control with a different
+joint decoder and on additional queries; a lower bound over those needs a new argument, and
+unitary-inversion query lower bounds do not transfer without a reduction. Everything here carries
+the **extra access assumption** — reusable controlled forward access to `U,V`, stronger than
+one-shot observation.
 
 ## 4. Robustness to trusted-control error
 

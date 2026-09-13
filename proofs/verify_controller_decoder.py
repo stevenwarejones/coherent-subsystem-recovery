@@ -1,5 +1,5 @@
 """Exact controller-only impossibility certificate, with no repository imports.
-Dependency: sympy. Prose inequalities and quantifiers are explained in RESEARCH.md.
+Dependency: sympy. Prose inequalities and quantifiers are in docs/CONTROLLER_DECODER.md.
 """
 import sympy as s
 

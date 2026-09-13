@@ -47,9 +47,11 @@ print(f"FWD: max |L†L-(I+B†T+T†B)| = {worst_id:.2e}; min (r - h(p)) = {wor
 f = sp.symbols('f', real=True)
 h = (9 * f - 1) ** 2 / 64
 assert sp.factor(h - (9 * f - 5) / 4) == sp.Rational(81, 64) * (f - 1) ** 2, "E-FWDCURVE-TANGENT"
-fc = [sp.nsimplify(sv) for sv in sp.solve(sp.Eq(3 * f / 4, h), f) if 0 < sv < 1]
-assert sp.nsimplify((11 + 4 * sp.sqrt(7)) / 27) in fc, ("E-FWDCURVE-SWITCH", fc)
-print(f"FWD: h-affine = 81(f-1)^2/64; switch f_c = {fc}")
+# Only the root in [1/9,1] governs decoder selection; the smaller root of 3f/4=(9f-1)^2/64
+# lies below 1/9, where the true (truncated) h is 0 and there is no crossing.
+fc = [sp.nsimplify(sv) for sv in sp.solve(sp.Eq(3 * f / 4, h), f) if sv >= sp.Rational(1, 9)]
+assert fc == [sp.nsimplify((11 + 4 * sp.sqrt(7)) / 27)], ("E-FWDCURVE-SWITCH", fc)
+print(f"FWD: h-affine = 81(f-1)^2/64; decoder switch f_c = {fc[0]}")
 
 # ---- controller obstruction ----
 x = sp.symbols('x', real=True)

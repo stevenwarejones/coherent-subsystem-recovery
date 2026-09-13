@@ -89,4 +89,4 @@ changed=np.kron(np.eye(3),np.kron(eye,X))@psi
 require(abs(np.vdot(target,changed))<1e-12,'LOW_SCORE_ENDPOINT')
 print('PASS 500 random matrix/circuit cases; maximum Born-effect discrepancy',max_error)
 print('PASS 101 exact-family numerical instances, reversed order, low-score endpoint')
-print('Scope: universal proof is in RESEARCH.md; random checks are corroboration only.')
+print('Scope: universal proof is in docs/FORWARD_RECOVERY.md; random checks are corroboration only.')

@@ -3,12 +3,14 @@
 ## One command
 
 ```sh
-python run_checks.py          # standard library + SymPy; no solver, no network
+python run_checks.py          # SymPy + NumPy (declared in requirements.txt); no solver, no network
 ```
 
-This runs the four required checks (exact certificate, elementary full-curve segments, the
-forward two-query guarantee, and the mutation cases) fail-fast, streaming output. It exits
-nonzero on any failure and prints its success sentence only after all four pass.
+This runs the six required checks (exact certificate, elementary full-curve segments, the
+forward two-query guarantee, the exact forward-circuit curve, the controller-only minimax
+obstruction, and the mutation cases) fail-fast, streaming output. It exits nonzero on any
+failure and prints its success sentence only after all six pass. The exact certificate and the
+mutation cases need only the standard library; the four SymPy/NumPy checks complete the curve.
 
 ## The checks, by tier
 
