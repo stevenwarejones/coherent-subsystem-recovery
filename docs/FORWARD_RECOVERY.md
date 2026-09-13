@@ -143,9 +143,10 @@ attaining family, **not** an exhaustive classification of the equality instances
 rank-two state `ρ_AM = (Φ⁺ + Ψ⁺)/2` with `U = −X`, `V = −Z` also lies on the curve
 (`r_UV = 0 = h`, with `f = 1/18` under the identity test decoder, `p = 1/9`; `ρ_A = I/2` and a
 bypass purifies it), and it is not in the pure Bell family above. So the curve is attained, but by
-more than one kind of instance. These attaining instances have optimal abstract recovery `R = 1`,
-so `h` bounds *this circuit* — and, on `[7/9,1]`, the controller-only architecture around it — not
-other circuits or the subsystem's recoverability.
+more than one kind of instance. The pure Bell phase-family instances have optimal recovery
+`R = 1`; the separable mixed-state example has `R = 1/2`. Either way `h` bounds *this circuit* —
+and, on `[7/9,1]`, the controller-only architecture around it — not other circuits or the
+subsystem's recoverability.
 
 ## Additional access assumption (do not hide this)
 
