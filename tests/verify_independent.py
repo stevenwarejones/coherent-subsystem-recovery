@@ -14,6 +14,9 @@ import json
 from fractions import Fraction as F
 from collections import defaultdict
 from pathlib import Path
+import sys as _sys
+if not __debug__:
+    raise SystemExit('Run without -O: this checker uses assertions.')
 _CERT = Path(__file__).resolve().parent.parent / 'certificates' / 'sharp_recovery.json'
 
 C = json.loads(_CERT.read_text())

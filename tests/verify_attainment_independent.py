@@ -4,6 +4,8 @@ controller-compression C = T^dag tau T, the Uhlmann optimum f_opt = 1/2 (Tr sqrt
 and the recoverability R, and checks bound = construction on [2/3, 1].
 """
 import numpy as np
+if not __debug__:
+    raise SystemExit("Run without -O: this checker uses assertions.")
 
 I2 = np.eye(2)
 X = np.array([[0, 1], [1, 0]], complex)
@@ -53,6 +55,8 @@ C_c, f_c = C_and_fopt(rho_c, [np.eye(4), U_c, V_c], 4)
 print("classical: ||rho_A - I/2|| =", f"{np.max(np.abs(rhoA - I2/2)):.2e}",
       "| ||C - I/3|| =", f"{np.max(np.abs(C_c - I2/3)):.2e}",
       "| f_opt =", f"{f_c:.6f}")
+assert np.max(np.abs(rhoA - I2 / 2)) < 1e-12, "classical endpoint: reference marginal must be I/2"
+assert np.max(np.abs(C_c - I2 / 3)) < 1e-12, "classical endpoint: C must be I/3"
 # separable c-q state: best entanglement fidelity by reading the flag and preparing conj state
 # R = max over flag-readout of Bell overlap; c-q separable => R <= 1/2, and reading flag attains 1/2
 # achieved: for each flag g the A-state is g rho0 g^dag (pure), prepare its transpose -> overlap 1
@@ -66,6 +70,7 @@ phi = np.array([1, 0, 0, 1], complex) / np.sqrt(2)
 bell = np.outer(phi, phi.conj())
 C_p, f_p = C_and_fopt(bell, [I2, X, Z], 2)
 print("perfect:   ||C - I/2|| =", f"{np.max(np.abs(C_p - I2/2)):.2e}", "| f_opt =", f"{f_p:.6f}")
+assert np.max(np.abs(C_p - I2 / 2)) < 1e-12, "perfect endpoint: C must be I/2"
 
 # ---------- mixture: direct sum, prob lambda perfect + (1-lambda) classical ----------
 print("mixture check  f=(2+lam)/3, R=(1+lam)/2=(3f-1)/2:")

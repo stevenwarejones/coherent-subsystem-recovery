@@ -1,6 +1,6 @@
 # Sharp recovery from the three-branch coherent test
 
-13 September 2026. Exact certificate and analytic protocol proof, produced and checked in this AI session. Not independently reviewed by a human or a separate agent. Historical novelty remains unresolved. This result supersedes the claim that the unrestricted sharp curve is open in the previous handoff.
+13 September 2026. Exact certificate and analytic protocol proof. Produced by one AI system and independently reconstructed from scratch by a second (see `VERIFICATION.md`); **not reviewed by a human domain expert**, and historical novelty remains unresolved. Within this repository the theorem is stated for the full score range in `FULL_CURVE.md`; this document proves the nontrivial high-score segment and its attainability. File names below refer to their repository paths: the certificate is `certificates/sharp_recovery.json`, and the checkers are `proofs/verify_sharp_recovery.py`, `proofs/verify_alternate.py`, `tests/test_certificate_mutations.py`, and `research/check_attainment.py`.
 
 ## Main result
 
@@ -14,7 +14,7 @@ For every f in [2/3,1], an allowed construction attains equality. Consequently t
 
 The earlier universal certificate had R >= (500/1041)(3f-1). The new certificate has the exact normalization t=1 rather than t=1041/1000. No numerical tolerance or limiting argument enters the new bound. This is not only the Hermitian or commuting subclass result.
 
-For f=1-epsilon, the new sharp guarantee is R >= 1-(3/2)epsilon. In particular it reaches perfect recovery at perfect test score. It improves the Renes-derived 1-6epsilon+O(epsilon²) guarantee near that endpoint. Renes's general recovery theorem is established prior art; this comparison does not establish historical priority for our protocol-specific sharp bound.
+For f=1-epsilon, the sharp guarantee is R >= 1-(3/2)epsilon, reaching perfect recovery at perfect test score. (An earlier draft compared this against a Renes-2016-derived 1-6epsilon guarantee; the current, stronger literature comparison is Berta-Coles-Wehner 2014 + Renes 2017, giving 1-(9/4)epsilon+(27/16)epsilon^2 -- see `PRIOR_ART.md`, which is the canonical comparison. Both are established prior art; neither establishes historical priority for this protocol-specific sharp bound.)
 
 ## 1. Protocol and normalization
 
@@ -74,7 +74,7 @@ Only unitarity was used, not commutation or Hermiticity.
 
 ## 3. The exact free-unitary certificate
 
-The supplied sharp_certificate.json contains:
+The supplied certificate `certificates/sharp_recovery.json` contains:
 
 - all 53 reduced words of length at most three in U,U†,V,V†;
 - rational basis matrices B_G of size 53 by 46 and B_J of size 53 by 48;
@@ -171,14 +171,14 @@ Recovery on a flagged direct sum is exactly the weighted sum of the block optima
 f={2+\lambda\over3},\qquad R={1+\lambda\over2}={3f-1\over2}.
 \]
 
-This verifies attainability throughout [2/3,1], with addressed dimension at most six. check_attainment.py verifies the reference marginal, both compressed C matrices, and the mixture identity using exact symbolic arithmetic. The recovery and Uhlmann interpretations are the prose arguments above, not outputs of that script.
+This verifies attainability throughout [2/3,1], with addressed dimension at most six. `research/check_attainment.py` verifies the reference marginal, both compressed C matrices, and the mixture identity using exact symbolic arithmetic. The recovery and Uhlmann interpretations are the prose arguments above, not outputs of that script.
 
 ## 6. What was verified
 
-- verify_sharp.py: Python standard library; exact positive pivots for the reduced Gram matrices; exact reconstruction of all free-word coefficients; exact partial-trace normalization; fixed claimed constant. Passes.
-- verify_alternate.py: python-flint; a different full-block reconstruction and exact leading principal determinants (Sylvester criterion). Passes. Written by the same AI, not independent external review.
-- test_mutations.py: unmodified certificate passes; four corruptions fail for their stated reasons; rejected inputs print no final success claim; -O is refused. One mutation adds the same positive constant summand to Q and S, preserving positivity and their difference while violating only normalization.
-- check_attainment.py: exact symbolic endpoint and mixture checks. Passes.
+- `proofs/verify_sharp_recovery.py`: Python standard library; exact positive pivots for the reduced Gram matrices; exact reconstruction of all free-word coefficients; exact partial-trace normalization; fixed claimed constant. Passes.
+- `proofs/verify_alternate.py`: python-flint; a different full-block reconstruction and exact leading principal determinants (Sylvester criterion). Passes. Written by the same AI, not independent external review.
+- `tests/test_certificate_mutations.py`: unmodified certificate passes; four corruptions fail for their stated reasons; rejected inputs print no final success claim; -O is refused. One mutation adds the same positive constant summand to Q and S, preserving positivity and their difference while violating only normalization.
+- `research/check_attainment.py`: exact symbolic endpoint and mixture checks. Passes. An independent from-scratch reconstruction is in `tests/verify_attainment_independent.py`.
 
 The discovery calculation was numerical. It reached about 0.99999978 at word length three, which alone was not a proof. Equality constraints and Pauli sign symmetry reduced the unknown Gram matrices. A reduced numerical interior point had positivity margin about 0.00012277. Rational rounding followed by exact linear correction produced the shipped certificate. The two exact verification routes, not the numerical optimum, justify the result.
 

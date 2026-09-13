@@ -32,8 +32,8 @@ R >= (3f - 1)/2      for  2/3 <= f <= 1,   sharp,
 ```
 proved by an **exact free-unitary positive-operator certificate** with normalization `t = 1`
 (no numerical tolerance): PSD Gram witnesses satisfying, for every pair of unitaries in every
-finite dimension, `Q − S = H`, `Tr_A Q = I`, `Q, S ≥ 0`, where `Q` is the Choi matrix of an
-explicit recovery channel on M. The other two segments are elementary. Theorem statements and a
+finite dimension, `Q − S = H`, `Tr_A Q = I`, `Q, S ≥ 0`, where `Q` is the Choi matrix of a
+CP unital map whose adjoint is the recovery channel on M. The other two segments are elementary. Theorem statements and a
 claim ledger: [`docs/RESULTS.md`](docs/RESULTS.md); full proof write-up:
 [`docs/THEOREM.md`](docs/THEOREM.md).
 
@@ -44,7 +44,7 @@ admit a simple forward-only recovery circuit (`R ≥ f`). This is what the resou
 **Implementable decoder (separate addition).** An explicit two-query forward circuit — one
 controlled-`U`, one controlled-`V`, no inverses, no knowledge of `U,V` — attains
 `r_UV ≥ (9f−5)/4` under an extra assumption of reusable controlled forward access, proved by a
-one-square identity. It is short of the existential sharp map (`9/4` vs `3/2` slope); see
+one-square identity. It is weaker than the existential sharp map — infidelity coefficient `9/4` rather than `3/2`; see
 [`docs/FORWARD_RECOVERY.md`](docs/FORWARD_RECOVERY.md).
 
 ## Verify
@@ -56,7 +56,7 @@ python run_checks.py
 
 The central certificate and the mutation cases use the **standard library only** — no SDP
 solver, no network. A second independent route over `python-flint`
-(`proofs/verify_alternate.py`) and my from-scratch re-derivation
+(`proofs/verify_alternate.py`) and an independent from-scratch re-derivation
 (`tests/verify_independent.py`) are run by CI; see [`docs/VERIFICATION.md`](docs/VERIFICATION.md)
 for the five tiers and exactly what each does and does not establish.
 
@@ -66,7 +66,7 @@ Not human-reviewed; not a priority claim; not experimental feasibility; not devi
 not a statement about observers, records, or retention over time. The nearest formula in the
 literature (Berta–Coles–Wehner 2014) is the *same affine expression for a different score* — an
 exact counterexample shows the naive identification fails, and the sharp bound still beats the
-best rigorously-translated literature bound (BCW + Renes 2017) on `[2/3, 1)`. Two possible
+strongest translated bound identified in our bounded search (BCW + Renes 2017) on `[2/3, 1)`. Two possible
 reductions (supermap identity-comb; Ando/WEP completion) remain **open** and gate any strong
 novelty claim: [`docs/OPEN_PROBLEMS.md`](docs/OPEN_PROBLEMS.md).
 
@@ -79,7 +79,7 @@ proofs/verify_alternate.py           second route (python-flint, optional)
 proofs/verify_full_curve.py          elementary segments + mechanism checks (SymPy)
 proofs/verify_forward_recovery.py    forward two-query implementable guarantee (SymPy)
 tests/test_certificate_mutations.py  intended-reason corruption cases (stdlib)
-tests/verify_independent.py          my from-scratch exact re-derivation
+tests/verify_independent.py          independent from-scratch exact re-derivation
 tests/verify_numeric_instantiation.py   concrete-unitary corroboration (NumPy)
 tests/verify_attainment_independent.py   attainability reconstruction (NumPy)
 research/                            symbolic attainment + literature-comparison arithmetic

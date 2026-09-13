@@ -51,7 +51,7 @@ jobs:
         run: python proofs/verify_forward_recovery.py
       - name: Independent forward-recovery re-derivation
         run: python tests/verify_forward_independent.py
-      - name: Independent exact re-derivation (mine, stdlib arithmetic)
+      - name: Independent exact re-derivation (exact stdlib arithmetic)
         run: python tests/verify_independent.py
       - name: Numeric instantiation corroboration (fixed seed)
         run: python tests/verify_numeric_instantiation.py
@@ -59,6 +59,8 @@ jobs:
         run: python tests/verify_attainment_independent.py
       - name: Literature comparison arithmetic
         run: python research/check_literature_comparisons.py
+      - name: Supporting-check corruption cases
+        run: python tests/test_supporting_mutations.py
 
   alternate:
     # Second, independent verification route over python-flint. Optional.

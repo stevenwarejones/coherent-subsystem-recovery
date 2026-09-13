@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """Fail-fast, streaming runner for the required checks.
 
-The central theorem needs only the standard library. The checks are run in
-dependency order; output is streamed as each produces it, and any nonzero exit
-stops the run. No success sentence is printed unless every required check has
-already passed.
+Checks are run in dependency order; output is streamed as each produces it, any
+nonzero exit stops the run, and no success sentence is printed unless every
+required check has already passed.
 
-Required (standard library only):
-    proofs/verify_sharp_recovery.py   exact free-unitary certificate, R >= (3f-1)/2
-    proofs/verify_full_curve.py       elementary segments completing R_min(f)   [needs SymPy]
-    tests/test_certificate_mutations.py   intended-reason corruption cases
+Required checks:
+    proofs/verify_sharp_recovery.py       exact free-unitary certificate, R >= (3f-1)/2   [stdlib only]
+    proofs/verify_full_curve.py           elementary segments completing R_min(f)          [SymPy]
+    proofs/verify_forward_recovery.py     forward two-query guarantee r_UV >= (9f-5)/4      [SymPy]
+    tests/test_certificate_mutations.py   intended-reason corruption cases                 [stdlib only]
 
-Independent re-derivations (mine; SymPy/NumPy) and the python-flint alternate
-route are run by CI and can be run manually; see docs/VERIFICATION.md. They are
-NOT required for the central exact result and are invoked separately so a missing
-optional dependency never masks a failure of the core checks.
+The central exact certificate and the mutation cases need only the standard
+library; the two SymPy checks above complete and extend the curve. The
+independent re-derivations (SymPy/NumPy), the supporting-check mutations, and the
+python-flint alternate route are run by CI and can be run manually
+(see docs/VERIFICATION.md); they are invoked separately so a missing optional
+dependency never masks a failure of the core checks.
 """
 import subprocess
 import sys

@@ -7,6 +7,8 @@ assembly and its own channel application.
 import json
 from pathlib import Path
 import numpy as np
+if not __debug__:
+    raise SystemExit("Run without -O: this checker uses assertions.")
 
 C = json.loads((Path(__file__).resolve().parent.parent/'certificates'/'sharp_recovery.json').read_text())
 words = [tuple(w) for w in C["words"]]
@@ -95,9 +97,48 @@ def bell_overlap_after_channel(Q, rho, d):
     return 0.5 * np.real(np.trace(Q @ rho))
 
 
+def recovery_kraus(Q, d, tol=1e-9):
+    """Kraus operators of the recovery channel D: M -> qubit, built from Q.
+
+    Q is the Choi matrix of the CP unital map E: qubit -> M (E(|a><b|) = Q_ab).
+    Its adjoint D = E^dag is the CPTP recovery on M. Eigendecomposing the Hermitian
+    Q = sum_i lambda_i v_i v_i^dag, the vectors v_i in qubit(x)M give D's Kraus
+    operators D_i (2 x d), D(Y) = sum_i D_i Y D_i^dag, with sum_i D_i^dag D_i = I_M
+    because E is unital (Tr_A Q = I_M). This does NOT assume the Bell-overlap formula;
+    it constructs the actual channel and applies it.
+    """
+    Qh = (Q + Q.conj().T) / 2
+    w, V = np.linalg.eigh(Qh)
+    assert w.min() > -tol, ("Q has a materially negative eigenvalue", w.min())
+    D = []
+    for i in range(len(w)):
+        if w[i] <= tol:
+            continue
+        D.append(np.sqrt(w[i]) * np.conj(V[:, i].reshape(2, d)))   # 2 x d, maps M -> qubit
+    tp = sum(Di.conj().T @ Di for Di in D)
+    assert np.max(np.abs(tp - np.eye(d))) < 1e-9, "recovery channel is not trace preserving"
+    return D
+
+
+def bell_overlap_applied(Q, rho, d):
+    """Actually apply the recovery channel to rho and measure the Bell overlap.
+
+    sigma = sum_i (I_A (x) D_i) rho (I_A (x) D_i^dag) is a state on A (x) qubit_out;
+    return <Phi+|sigma|Phi+>. No use of the 1/2 Tr(Q rho) identity.
+    """
+    D = recovery_kraus(Q, d)
+    IA = np.eye(2)
+    sigma = sum(np.kron(IA, Di) @ rho @ np.kron(IA, Di).conj().T for Di in D)
+    assert np.min(np.linalg.eigvalsh((sigma + sigma.conj().T) / 2)) > -1e-9, "sigma not PSD"
+    assert abs(np.trace(sigma) - 1) < 1e-9, "recovered state is not normalized"
+    phi = np.array([1, 0, 0, 1], complex) / np.sqrt(2)              # Phi+ on A (x) qubit_out
+    return np.real(np.vdot(phi, sigma @ phi))
+
+
 rng = np.random.default_rng(20260913)
 worst_S = 0.0
 worst_tr = 0.0
+worst_formula = 0.0
 worst_gap = 1e9
 for trial in range(200):
     d = rng.integers(2, 5)
@@ -118,13 +159,47 @@ for trial in range(200):
     rho = G @ G.conj().T
     rho = rho / np.trace(rho)
     p = np.real(np.trace(((H + np.eye(2 * d)) / 3) @ rho))     # p = Tr(K rho), K=(H+I)/3
-    R_achieved = bell_overlap_after_channel(Q, rho, d)
-    # the certificate's channel achieves R_achieved; claim R_achieved >= (3p-1)/2
-    worst_gap = min(worst_gap, R_achieved - (3 * p - 1) / 2)
-    # sanity: R_achieved = 1/2 Tr(Q rho) and Q>=H  =>  >= 1/2 Tr(H rho) = (3p-1)/2
-print("max |(Q-S) - H| over 200 random (U,V,dim) :", f"{worst_S:.2e}")
-print("max |Tr_A Q - I_M|                         :", f"{worst_tr:.2e}")
-print("min over trials of  R_achieved-(3p-1)/2    :", f"{worst_gap:.2e}", "(>=0 required)")
-assert worst_S < 1e-9 and worst_tr < 1e-9 and worst_gap > -1e-9
-print("PASS: certificate instantiates correctly on concrete unitaries;")
-print("      the Choi-Q recovery channel achieves >= (3p-1)/2 on random states.")
+    # Apply the ACTUAL recovery channel (Kraus operators built from Q), then compare its
+    # measured Bell overlap both to the 1/2 Tr(Q rho) formula and to the promised bound.
+    R_applied = bell_overlap_applied(Q, rho, d)
+    R_formula = bell_overlap_after_channel(Q, rho, d)
+    worst_formula = max(worst_formula, abs(R_applied - R_formula))
+    worst_gap = min(worst_gap, R_applied - (3 * p - 1) / 2)
+print("max |(Q-S) - H| over 200 random (U,V,dim)      :", f"{worst_S:.2e}")
+print("max |Tr_A Q - I_M|                              :", f"{worst_tr:.2e}")
+print("max |applied channel overlap - 1/2 Tr(Q rho)|  :", f"{worst_formula:.2e}")
+print("min over trials of  R_applied - (3p-1)/2       :", f"{worst_gap:.2e}", "(>=0 required)")
+assert worst_S < 1e-9 and worst_tr < 1e-9 and worst_formula < 1e-9 and worst_gap > -1e-9
+
+# Convention mutation: dropping the conjugation in the Kraus construction must break the
+# channel (non-TP) or the overlap match, on a fixed complex instance. It must NOT silently pass.
+d = 3
+U, V = rand_unitary(d, rng), rand_unitary(d, rng)
+Q = build_Q(gG, U, V, d)
+G = rng.normal(size=(2 * d, 2 * d)) + 1j * rng.normal(size=(2 * d, 2 * d))
+rho = G @ G.conj().T
+rho /= np.trace(rho)
+
+
+def bad_overlap_no_conj(Q, rho, d):
+    Qh = (Q + Q.conj().T) / 2
+    w, Vv = np.linalg.eigh(Qh)
+    Dbad = [np.sqrt(max(wi, 0)) * Vv[:, i].reshape(2, d) for i, wi in enumerate(w) if wi > 1e-9]
+    IA = np.eye(2)
+    sig = sum(np.kron(IA, Di) @ rho @ np.kron(IA, Di).conj().T for Di in Dbad)
+    phi = np.array([1, 0, 0, 1], complex) / np.sqrt(2)
+    return np.real(np.vdot(phi, sig @ phi)), sum(Di.conj().T @ Di for Di in Dbad)
+
+
+try:
+    ov_bad, tp_bad = bad_overlap_no_conj(Q, rho, d)
+    tp_broken = np.max(np.abs(tp_bad - np.eye(d))) > 1e-9
+    match_broken = abs(ov_bad - bell_overlap_after_channel(Q, rho, d)) > 1e-9
+    assert tp_broken or match_broken, "MUTATION_NOT_CAUGHT: dropping the conjugation still passed"
+    print("PASS convention mutation caught: dropping the Kraus conjugation breaks TP/overlap")
+except AssertionError as e:
+    if "MUTATION_NOT_CAUGHT" in str(e):
+        raise
+
+print("PASS: certificate instantiates on concrete unitaries; the recovery channel built from")
+print("      Q is trace preserving and its applied Bell overlap attains >= (3p-1)/2.")

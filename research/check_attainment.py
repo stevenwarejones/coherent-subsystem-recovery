@@ -1,4 +1,7 @@
 """Exact algebraic endpoint/symmetrization check. Requires SymPy, not used by verifier."""
+import sys as _sys
+if not __debug__:
+    raise SystemExit('Run without -O: this checker uses assertions.')
 import sympy as s
 I=s.eye(2);X=s.Matrix([[0,1],[1,0]]);Y=s.Matrix([[0,-s.I],[s.I,0]]);Z=s.diag(1,-1)
 P=(I+(X-Y+Z)/s.sqrt(3))/2
