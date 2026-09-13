@@ -46,6 +46,12 @@ success sentence only after all three pass.
 
 - **`proofs/verify_full_curve.py`** — the elementary `3f/4` and `1/4` segments, endpoints,
   interpolation, two-branch and four-branch comparisons.
+- **`proofs/verify_forward_recovery.py`** — the forward-only two-query guarantee: the one-square
+  free-unitary identity `T†T+20I−4L†L=J†J`, the circuit's isometry/Bell-effect conventions on
+  exact instances (incl. complex nonsymmetric unitaries), the phase-family slope, and the
+  selection threshold. See `FORWARD_RECOVERY.md`. Refuses `-O`.
+- **`tests/verify_forward_independent.py`** — my from-scratch NumPy re-derivation of that identity
+  (random `U,V`, dims 1–5), `r_UV ≥ (9p−5)/4`, the phase family, and `forward ≤ sharp`.
 - **`research/check_attainment.py`** — symbolic endpoint/mixture arithmetic for sharpness.
 - **`research/check_literature_comparisons.py`** — the two exact counterexamples and the
   comparison table from `PRIOR_ART.md` (BCW failed substitution; independent-observable

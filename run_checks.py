@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parent
 REQUIRED = [
     ("Exact free-unitary certificate (stdlib)", ROOT / "proofs" / "verify_sharp_recovery.py"),
     ("Elementary full-curve segments (SymPy)", ROOT / "proofs" / "verify_full_curve.py"),
+    ("Forward-only two-query recovery guarantee (SymPy)", ROOT / "proofs" / "verify_forward_recovery.py"),
     ("Certificate corruption / mutation cases (stdlib)", ROOT / "tests" / "test_certificate_mutations.py"),
 ]
 
@@ -43,8 +44,9 @@ def main():
         run(label, path)
     print(
         "\nAll required checks passed: the exact certificate for R >= (3f-1)/2, the "
-        "elementary segments completing R_min(f) = max{1/4, 3f/4, (3f-1)/2}, and the "
-        "intended-reason mutation cases.\n"
+        "elementary segments completing R_min(f) = max{1/4, 3f/4, (3f-1)/2}, the "
+        "forward-only two-query guarantee r_UV >= (9f-5)/4, and the intended-reason "
+        "mutation cases.\n"
         "This is exact-arithmetic verification, not human expert review or a priority "
         "claim. See docs/VERIFICATION.md for what these checks do and do not establish."
     )

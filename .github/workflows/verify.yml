@@ -47,6 +47,10 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Full-curve elementary segments
         run: python proofs/verify_full_curve.py
+      - name: Forward-only two-query recovery guarantee
+        run: python proofs/verify_forward_recovery.py
+      - name: Independent forward-recovery re-derivation
+        run: python tests/verify_forward_independent.py
       - name: Independent exact re-derivation (mine, stdlib arithmetic)
         run: python tests/verify_independent.py
       - name: Numeric instantiation corroboration (fixed seed)

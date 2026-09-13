@@ -35,13 +35,23 @@ reconstruct `f ≤ p`, the block identity and Choi orientation/normalization, th
 attainability, and the general two-branch spectral construction; and verify the free-unitary
 certificate separately from its physical interpretation.
 
-## 3. Efficient forward-only implementation of the sharp map
+## 3. Efficient forward-only implementation of the sharp map — partially addressed
 
-The certificate specifies the recovery channel algebraically, but it uses adjoint words. The
-elementary forward-only decoder (`W_3`) achieves only `R ≥ 3f/4` (so `3/4` at `f=1`, versus the
-sharp `1`). Open: a resource-bounded implementation of the sharp guarantee using forward
-controlled `U, V` (specify access to adjoints, fresh ancillas, and number of uses before
-optimizing), or a query lower bound showing a gap.
+The certificate specifies the recovery channel algebraically, but it uses adjoint words.
+
+**Progress (see `docs/FORWARD_RECOVERY.md`).** An explicit **two-query** forward circuit — one
+controlled-`U` and one controlled-`V` call, two ancillas, no inverses, no knowledge of `U,V`, no
+bypass access — attains `r_UV ≥ (9f−5)/4`, giving the selectable implementable guarantee
+`max{1/4, 3f/4, (9f−5)/4}`. Its `9/4` anchored slope is proved sharp *for that circuit* (phase
+family). This adds an operationally explicit decoder, verified exactly by a one-square identity.
+
+**Still open.** It is *not* the sharp map: its slope is `9/4`, not the optimal `3/2`, so it
+guarantees `(9f−5)/4 ≤ (3f−1)/2` (gap `3(1−f)/4`). Open: a resource-bounded forward
+implementation of the sharp `(3f−1)/2` guarantee, or a query lower bound showing no fixed
+finite-query forward circuit can reach it. The suggested starting point (reversed order `VU`,
+coherent combinations of orderings) must be tested against the phase family, which defeats naive
+averaging. It also carries an **extra access assumption** — reusable controlled forward access to
+`U,V`, stronger than one-shot observation — which must stay attached to any practical claim.
 
 ## 4. Robustness to trusted-control error
 

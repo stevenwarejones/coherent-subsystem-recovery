@@ -41,6 +41,12 @@ claim ledger: [`docs/RESULTS.md`](docs/RESULTS.md); full proof write-up:
 (`R = 1/2` even at `f = 1`); three branches certify `R > 1/2` once `f > 2/3`; four Pauli branches
 admit a simple forward-only recovery circuit (`R ≥ f`). This is what the resource count buys.
 
+**Implementable decoder (separate addition).** An explicit two-query forward circuit — one
+controlled-`U`, one controlled-`V`, no inverses, no knowledge of `U,V` — attains
+`r_UV ≥ (9f−5)/4` under an extra assumption of reusable controlled forward access, proved by a
+one-square identity. It is short of the existential sharp map (`9/4` vs `3/2` slope); see
+[`docs/FORWARD_RECOVERY.md`](docs/FORWARD_RECOVERY.md).
+
 ## Verify
 
 ```sh
@@ -71,6 +77,7 @@ certificates/sharp_recovery.json     the shipped rational certificate (t = 1)
 proofs/verify_sharp_recovery.py      exact standalone checker (stdlib)
 proofs/verify_alternate.py           second route (python-flint, optional)
 proofs/verify_full_curve.py          elementary segments + mechanism checks (SymPy)
+proofs/verify_forward_recovery.py    forward two-query implementable guarantee (SymPy)
 tests/test_certificate_mutations.py  intended-reason corruption cases (stdlib)
 tests/verify_independent.py          my from-scratch exact re-derivation
 tests/verify_numeric_instantiation.py   concrete-unitary corroboration (NumPy)
