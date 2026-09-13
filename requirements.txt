@@ -1,0 +1,12 @@
+# The central exact certificate (proofs/verify_sharp_recovery.py) and the mutation
+# cases (tests/test_certificate_mutations.py) use the PYTHON STANDARD LIBRARY ONLY.
+# Nothing in this file is needed for that core result.
+#
+# These packages are used by the supporting checks:
+#   - proofs/verify_full_curve.py and research/check_attainment.py      (SymPy)
+#   - tests/verify_independent.py                                        (stdlib only, exact)
+#   - tests/verify_numeric_instantiation.py                             (NumPy, corroboration)
+#   - tests/verify_attainment_independent.py                            (NumPy, corroboration)
+#   - research/check_literature_comparisons.py                          (SymPy)
+sympy>=1.12
+numpy>=1.24
