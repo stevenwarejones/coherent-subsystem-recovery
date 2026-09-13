@@ -42,10 +42,11 @@ claim ledger: [`docs/RESULTS.md`](docs/RESULTS.md); full proof write-up:
 admit a simple forward-only recovery circuit (`R ≥ f`). This is what the resource count buys.
 
 **Implementable decoder (separate addition).** An explicit two-query forward circuit — one
-controlled-`U`, one controlled-`V`, no inverses, no knowledge of `U,V` — attains
-`r_UV ≥ (9f−5)/4` under an extra assumption of reusable controlled forward access, proved by a
-one-square identity. It is weaker than the existential sharp map — infidelity coefficient `9/4` rather than `3/2`; see
-[`docs/FORWARD_RECOVERY.md`](docs/FORWARD_RECOVERY.md).
+controlled-`U`, one controlled-`V`, no inverses, no knowledge of `U,V` — has the exact worst-case
+curve `r_UV ≥ h(f) = max{0,9f−1}²/64` under an extra assumption of reusable controlled forward
+access, and this is minimax-optimal for the fixed query stage plus controller-only decoding on
+`[7/9,1]`. It is weaker than the existential sharp map (infidelity coefficient `9/4` vs `3/2`);
+see [`docs/FORWARD_RECOVERY.md`](docs/FORWARD_RECOVERY.md).
 
 ## Verify
 
