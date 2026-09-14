@@ -65,7 +65,9 @@ corresponding adversarial family gives the obstruction for every `f ∈ [0.9, 1)
 is bounded" — a high-score instance with a perfect controller can also exist). It does **not**
 exclude every finite-query algorithm; four active calls have not been shown sufficient. The
 [finite-query model](docs/FORWARD_QUERY_MODEL.md) states the controller and target access
-explicitly. This does not change the existential sharp curve.
+explicitly. Under an additional exact reflection promise (`V = V†`, `V² = I`), the balanced circuit
+instead has the constructive bound `r ≥ max(0,(9f−1−δ)/8)` with `δ = ‖UV+VU‖`; see
+[reflection recovery](docs/REFLECTION_RECOVERY.md). Neither result changes the existential sharp curve.
 
 ## Verify
 
@@ -79,6 +81,11 @@ solver, no network. A second independent route over `python-flint`
 (`proofs/verify_alternate.py`) and an independent from-scratch re-derivation
 (`tests/verify_independent.py`) are run by CI; see [`docs/VERIFICATION.md`](docs/VERIFICATION.md)
 for the five tiers and exactly what each does and does not establish.
+
+The combined forward-query additions also have a
+[separate reconstruction audit](docs/FORWARD_RESULTS_AUDIT.md): independent
+free-group/characteristic-polynomial checks and independent gate-level physical
+reconstruction. These are AI verification routes, not human expert review.
 
 ## What this is not
 

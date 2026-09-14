@@ -104,7 +104,9 @@ Full definitions: [joint recovery](JOINT_CALIBRATION_RECOVERY.md).
 | Full 64-dimensional robust controller dual at f=0.9 | Exact rational arithmetic and five mutations | Fixed VUVUV slots; no endpoint-perfection restriction |
 | At most three active calls, high-score mixture family | Prose proof for review using the exact dual | Fixed/preselected random order; score selection allowed; no arbitrary adaptive order |
 | Moment extension, symmetrization, compactness, support-specific completeness | Prose proof for review | The explicit score-independent model in FORWARD_QUERY_MODEL |
-| Physical robust bridge | Numerical corroboration | Finite seeded examples, not universal physical proofs |
+| Reflection recovery block identity | Exact symbolic block algebra | Exact V reflection; additional anticommutator norm parameter |
+| Physical robust bridge and reflection norm | Numerical corroboration | Finite seeded examples, not universal physical proofs |
+| Restricted phase-family recovery | Exact Laurent-polynomial checks plus nonnegative-factor argument | Bell inputs with phase-shifted Pauli interventions only |
 | No constant off-diagonal scaling | Exact two-instance identities plus positivity/uniqueness argument | This ansatz only, not general completion |
 
 The older endpoint certificates are historical witnesses. None of these entries

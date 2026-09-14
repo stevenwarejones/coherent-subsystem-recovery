@@ -133,3 +133,32 @@ The numerical bridge reuses coefficient builders from the exact verifier; it is
 corroboration, not a wholly independent proof implementation. The physical
 finite-unitary extension and controller-class arguments are not machine
 formalized by any of these checks.
+
+## Reflection and phase-family checks
+
+- `proofs/verify_reflection_identity.py`: required exact SymPy block identity,
+  refusing optimized Python. General block validity uses the documented
+  unitarity expansion and linearity argument.
+- `tests/verify_reflection_numeric.py`: seeded NumPy corroboration of the two
+  isometries, their Born effects, and the norm equality.
+- `research/check_forward_phase_family.py`: exact SymPy Laurent-polynomial
+  identities for the restricted phase family; its positivity interpretation is
+  stated separately in the docs.
+
+## Independent reconstruction of this addition
+
+[FORWARD_RESULTS_AUDIT.md](FORWARD_RESULTS_AUDIT.md) records the separate
+mathematical reconstruction and its limits. The new implementations import no
+supplied proof/discovery modules:
+
+- `tests/verify_forward_results_independent.py` uses free-group algebra and
+  FLINT characteristic polynomials, covers all seven rational certificates,
+  independently derives reflection/phase/completion identities, and validates
+  shot cutoffs with integer arithmetic. CI runs it with the existing optional
+  verification dependencies.
+- `tests/verify_forward_physics_independent.py` uses eigensquare-root/QR unitary
+  completion, actual controller gates, and explicit common-decoder rows. It
+  checks 18 complex controllers and 24 rotated reflections. It needs NumPy.
+
+These are independent implementations and an AI prose review, not independent
+research teams, human expert review, or machine formalization of every proof.

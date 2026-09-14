@@ -80,6 +80,8 @@ jobs:
         run: python -m pip install -r requirements.txt -r requirements-optional.txt
       - name: Alternate certificate route (Sylvester / python-flint)
         run: python proofs/verify_alternate.py
+      - name: Independent reconstruction of all new rational certificates
+        run: python tests/verify_forward_results_independent.py
 
   forward-query-results:
     # Robust forward-query obstruction: exact stdlib core, then seeded corroboration.
@@ -100,11 +102,23 @@ jobs:
             if python -O "$script" > refusal.txt 2>&1; then exit 1; fi
             grep -Fx 'Run without -O' refusal.txt
           done
-      - name: Install numerical-only dependencies
+      - name: Install supporting dependencies
         run: python -m pip install -r requirements.txt scipy
+      - name: Reflection block identity (SymPy)
+        run: python proofs/verify_reflection_identity.py
+      - name: Refuse optimized symbolic proof entry points
+        run: |
+          for script in proofs/verify_reflection_identity.py research/check_forward_phase_family.py; do
+            if python -O "$script" > refusal.txt 2>&1; then exit 1; fi
+            grep -Fx 'Run without -O' refusal.txt
+          done
       - name: Physical Born corroboration
         run: |
           python tests/verify_robust_forward_bridge.py
           python tests/verify_joint_born.py
+          python tests/verify_reflection_numeric.py
+          python tests/verify_forward_physics_independent.py
       - name: Exact supporting identities
-        run: python research/check_forward_reductions.py
+        run: |
+          python research/check_forward_reductions.py
+          python research/check_forward_phase_family.py
