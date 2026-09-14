@@ -84,6 +84,15 @@ on the score (a lower confidence limit `f_L`) is a separate, stateable substitut
 Infinite-dimensional domains are not claimed. Multi-time / sequential versions, and other
 target sets beyond `(I,X,Z)`, are unexplored here.
 
+## Joint calibration for a different two-query recovery
+
+The [balanced recovery](JOINT_CALIBRATION_RECOVERY.md) meets the sharp target
+under `q <= (1-f)/12`; a counterexample brackets its universal threshold by
+`1/12 <= c_bal <= 522171/4500256`. This does not solve score-only forward
+recovery or contradict the existing fixed-query-stage minimax theorem: the
+circuit and observed data differ. A useful next question is whether another
+accessible controller can handle the adversary without this small-q condition.
+
 ## Compilation prerequisite for control-error work
 
 The supplied control-error handoff assumes a weighted LCU/adjoint-access

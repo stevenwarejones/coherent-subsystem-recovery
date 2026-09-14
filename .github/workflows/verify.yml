@@ -89,15 +89,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Exact robust obstruction and mutations (stdlib)
-        run: python proofs/verify_robust_forward_obstruction.py
+      - name: Exact certificates and mutations (stdlib)
+        run: |
+          python proofs/verify_robust_forward_obstruction.py
+          python proofs/verify_joint_recovery.py
+          python proofs/verify_joint_adversary.py
       - name: Refuse optimized Python
         run: |
-          if python -O proofs/verify_robust_forward_obstruction.py > refusal.txt 2>&1; then exit 1; fi
-          grep -Fx 'Run without -O' refusal.txt
+          for script in proofs/verify_robust_forward_obstruction.py proofs/verify_joint_recovery.py proofs/verify_joint_adversary.py; do
+            if python -O "$script" > refusal.txt 2>&1; then exit 1; fi
+            grep -Fx 'Run without -O' refusal.txt
+          done
       - name: Install numerical-only dependencies
         run: python -m pip install -r requirements.txt scipy
       - name: Physical Born corroboration
-        run: python tests/verify_robust_forward_bridge.py
+        run: |
+          python tests/verify_robust_forward_bridge.py
+          python tests/verify_joint_born.py
       - name: Exact supporting identities
         run: python research/check_forward_reductions.py
