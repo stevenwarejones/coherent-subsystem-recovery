@@ -70,6 +70,10 @@ query order, indefinite causal order, extra target operations, and postselection
 are outside the stated obstruction. Controlled oracle reuse remains an extra
 access assumption beyond the original coherent test.
 
+The [restricted phase family](FORWARD_PHASE_FAMILY.md) has a randomized
+three-call recovery meeting the target, so that family cannot establish the
+general negative result.
+
 ## 4. Robustness to trusted-control error
 
 The theorem assumes exact coherent implementation of `I, U, V` including relative phases. A
