@@ -39,9 +39,23 @@ def main():
   try:verify(t)
   except ValueError as e:need(str(e)=='STORED_VALUE','WRONG_MUTATION_REASON')
   else:raise ValueError('MUTATION_ACCEPTED')
+ # Structural mutations exercising the moment guards themselves (review-recommended):
+ # scaling preserves positivity/consistency but breaks normalization; a positive
+ # diagonal bump preserves normalization but breaks unitary consistency; a negative
+ # diagonal breaks Gram positivity. Each must reject for its own reason.
+ def scaled(t):
+  t=copy.deepcopy(t);t['moment']=[[str(F(x)*2)for x in row]for row in t['moment']];return t
+ def bumped(t):
+  t=copy.deepcopy(t);t['moment'][1][1]=str(F(t['moment'][1][1])+1);return t
+ def negated(t):
+  t=copy.deepcopy(t);t['moment'][0][0]='-1';return t
+ for mutate,reason in [(scaled,'NORMALIZATION'),(bumped,'UNITARY_MOMENTS'),(negated,'GRAM_PSD')]:
+  try:verify(mutate(d))
+  except ValueError as e:need(str(e)==reason,'WRONG_MUTATION_REASON')
+  else:raise ValueError('MUTATION_ACCEPTED')
  print('PASS exact 14x14 positive-definite moment matrix and all unitary equalities')
  for k,v in vals.items():print(k,'=',v,'=',float(v))
  print('CONCLUSION: this balanced recovery fails although q < (1-f)/8 after the stated physical flag construction.')
  print('This is NOT an impossibility result for other recovery circuits.')
- print('PASS two stored-claim mutations rejected')
+ print('PASS two stored-claim and three structural mutations rejected for their intended reasons')
 if __name__=='__main__':main()

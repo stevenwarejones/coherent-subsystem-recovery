@@ -1,20 +1,23 @@
 # Joint score–calibration recovery: linear tolerance and a matching scaling obstruction
 
-Independent AI derivation and separate exact/numerical implementations:
-separate exact and numerical checks (see [VERIFICATION.md](VERIFICATION.md)). Human expert review and
-historical novelty remain outstanding.
-
-
-Research handoff, 2026-09-13. Candidate mathematical results, checked with exact arithmetic and numerical physical realizations. Independent review and historical novelty remain outstanding. No repository, PR, or manuscript has been changed.
+Integrated from the 2026-09-13 research handoff. Exact certificate checks and
+numerical physical corroborations are included here; see the separate exact and
+numerical checks documented in [VERIFICATION.md](VERIFICATION.md). The combined
+independent reconstruction is supplied in the third PR of this stack. Human
+expert review and historical novelty remain outstanding.
 
 ## Integration status
 
 The rational lower certificate and adversary are checked by the repository verifiers.
 The physical reduction and statistical arguments below remain prose proofs for review;
-no human review or novelty clearance is claimed. References to a preceding calibration
-bound record the handoff history: its derivation is not shipped in this checkout and
-its pointwise envelope and comparative sample counts are not new verified claims here.
-The new affine bound and its own sample count do not require that predecessor.
+no human review or novelty clearance is claimed.
+
+**Deferred comparison.** A preceding quadratic calibration bound is referenced in
+places below as handoff provenance only. Its derivation is not shipped in this
+checkout, so that comparison — its pointwise envelope and its comparative sample
+counts — is excluded until its proof is supplied, and is not a verified claim here.
+The new affine bound `r ≥ max(0, (5f−1)/4 − 3q)` and its own zero-event sample
+counts stand on their own and do not depend on that predecessor.
 
 ## Main result
 
