@@ -87,6 +87,16 @@ fidelity is `(2R+1)/3`. The appearance of `2/3` in a classical average-fidelity 
 **not** the same object as the coherent-score threshold `f = 2/3`. See
 [Nielsen, quant-ph/0205035](https://arxiv.org/abs/quant-ph/0205035).
 
+## Joint score-calibration addition
+
+- **Exact:** rational 14-by-14 PSD Gram identity `E - 5K/4 + 3Q + I/4 >= 0`, checked by `proofs/verify_joint_recovery.py`, including mutations.
+- **Exact:** rational moment positivity, unitary consistency, and a deficit `731/7500000` for the balanced recovery, checked by `proofs/verify_joint_adversary.py`.
+- **Prose proof for review:** operational calibration definition, moment extension, Pauli flags, common decoder, mixture family, and binary-agreement sampling argument. These are not formalized by the certificate scripts.
+- **Numerical:** `tests/verify_joint_born.py` checks concrete unitaries, Born probabilities, and 120 SOS instantiations.
+- **Open:** the optimal threshold constant and alternative controllers. No novelty claim.
+
+Full definitions: [joint recovery](JOINT_CALIBRATION_RECOVERY.md).
+
 ## Extended forward-query results
 
 | Statement | Evidence | Scope |

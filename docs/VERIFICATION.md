@@ -100,6 +100,21 @@ mutation cases need only the standard library; the four SymPy/NumPy checks compl
 Measured runtime: the required `run_checks.py` completes in a few seconds; the numeric
 instantiation (Tier 3) takes roughly a minute (200 trials over several dimensions).
 
+## Joint calibration certificate chain
+
+`python proofs/verify_joint_recovery.py` and `python proofs/verify_joint_adversary.py`
+use standard-library rational arithmetic, refuse optimized Python, and locate
+immutable data under `certificates/` independently of the working directory.
+Their success output follows all certificate and supplied mutation gates. Both
+are included in `run_checks.py`. The adversary imports arithmetic helpers from
+the lower verifier; these are not two independent verification implementations.
+
+`python tests/verify_joint_born.py` additionally needs NumPy and SciPy. It is
+floating-point corroboration and is run in a separate CI job; SciPy is not a
+core dependency. Exact arithmetic does not validate the physical or statistical
+prose automatically. The attached predecessor-calibration comparisons are
+provenance only until their missing derivation is supplied.
+
 ## Robust forward-query checks
 
 - `proofs/verify_robust_forward_obstruction.py`: standard-library rational

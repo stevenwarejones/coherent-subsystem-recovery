@@ -48,6 +48,13 @@ access, and this is minimax-optimal for the fixed query stage plus controller-on
 `[7/9,1]`. It is weaker than the existential sharp map (infidelity coefficient `9/4` vs `3/2`);
 see [`docs/FORWARD_RECOVERY.md`](docs/FORWARD_RECOVERY.md).
 
+**Joint calibration addition (separate fixed recovery).** A balanced two-forward-query
+recovery has the certified bound `r ≥ max(0, (5f-1)/4 - 3q)`, where `q` is a
+sequential controller calibration probability on fresh copies. Thus `q ≤ (1-f)/12`
+suffices to reach `(3f-1)/2`. A separate physical moment counterexample brackets
+this fixed recovery's threshold (`1/12 ≤ c_bal ≤ 522171/4500256`); it limits this
+recovery, not every controller. See [the definitions and scope](docs/JOINT_CALIBRATION_RECOVERY.md).
+
 **Forward-query limits (separate addition).** A full-history rational dual certifies a
 [robust obstruction](docs/ROBUST_FORWARD_OBSTRUCTION.md) to the sharp high-score guarantee with at
 most three active forward calls, including score-selected controllers with fixed or preselected
