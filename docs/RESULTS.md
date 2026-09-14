@@ -86,3 +86,17 @@ corroboration that would catch a convention error but is not itself a proof; **c
 fidelity is `(2R+1)/3`. The appearance of `2/3` in a classical average-fidelity benchmark is
 **not** the same object as the coherent-score threshold `f = 2/3`. See
 [Nielsen, quant-ph/0205035](https://arxiv.org/abs/quant-ph/0205035).
+
+## Extended forward-query results
+
+| Statement | Evidence | Scope |
+|---|---|---|
+| Full 64-dimensional robust controller dual at f=0.9 | Exact rational arithmetic and five mutations | Fixed VUVUV slots; no endpoint-perfection restriction |
+| At most three active calls, high-score mixture family | Prose proof for review using the exact dual | Fixed/preselected random order; score selection allowed; no arbitrary adaptive order |
+| Moment extension, symmetrization, compactness, support-specific completeness | Prose proof for review | The explicit score-independent model in FORWARD_QUERY_MODEL |
+| Physical robust bridge | Numerical corroboration | Finite seeded examples, not universal physical proofs |
+| No constant off-diagonal scaling | Exact two-instance identities plus positivity/uniqueness argument | This ansatz only, not general completion |
+
+The older endpoint certificates are historical witnesses. None of these entries
+claims all-finite-query impossibility, four-query sufficiency, optimal robust
+constants, experimental superiority, or historical priority.

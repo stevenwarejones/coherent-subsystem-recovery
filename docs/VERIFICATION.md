@@ -99,3 +99,22 @@ mutation cases need only the standard library; the four SymPy/NumPy checks compl
 
 Measured runtime: the required `run_checks.py` completes in a few seconds; the numeric
 instantiation (Tier 3) takes roughly a minute (200 trials over several dimensions).
+
+## Robust forward-query checks
+
+- `proofs/verify_robust_forward_obstruction.py`: standard-library rational
+  moment and full-history dual checks, followed by five named mutations. It
+  is a required check and refuses optimized Python.
+- `tests/verify_robust_forward_bridge.py`: seeded NumPy/SciPy corroboration. It
+  prints results without rewriting certificates or checked-in logs.
+- `research/check_forward_reductions.py`: exact SymPy identities for the
+  fixed-scaling completion examples; their physical and positivity
+  interpretations are stated separately in the docs.
+- `history/endpoint_forward_queries/verify_certificates.py`: optional historical
+  standard-library chain. It requires all four named certificates, rejects
+  optimized Python, and defers success output until all mutations pass.
+
+The numerical bridge reuses coefficient builders from the exact verifier; it is
+corroboration, not a wholly independent proof implementation. The physical
+finite-unitary extension and controller-class arguments are not machine
+formalized by any of these checks.

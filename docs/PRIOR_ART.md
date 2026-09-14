@@ -67,3 +67,23 @@ physical branches `(I,X,Z)` vs `(I,−X,Z)` induce identical individual channels
 "Compared" means the indicated definitions/equations were read in full text; it does not mean
 every proof in that paper was independently verified. This was not an exhaustive
 citation-graph or subscription-database review, and none of it is human expert assessment.
+
+## Narrow completion update
+
+The [fixed-scaling obstruction](COMPLETION_OBSTRUCTION.md) strengthens the
+previous failure of `Q_01=H_01`: an ideal Pauli instance forces k=3/4, while
+U=I and V=iI exclude that value under normalized positivity. This excludes
+constant-scaling prescriptions, not more general Ando-style reductions.
+The imported research uses established Gram, unitary-extension, comb, and SOS
+methods. No new general method or cleared priority claim is asserted.
+
+The integration review inspected Section 7.2 of
+[Jindal–Klep–McCullough](https://arxiv.org/html/2511.06487v3), which constructs
+unitaries by extending isometries between equal-codimension Gram subspaces.
+This directly supports treating that mechanism as existing mathematical
+machinery. It does not by itself establish a reduction of the specific
+controller-constrained recovery certificates here. The abstract records of
+[Chiribella–D’Ariano–Perinotti](https://arxiv.org/abs/0904.4483) and
+[Lee et al.](https://arxiv.org/abs/1011.3020) were also checked as background,
+not audited for theorem-level containment. No broad novelty sweep was performed
+as part of this integration.
