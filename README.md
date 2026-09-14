@@ -51,10 +51,14 @@ see [`docs/FORWARD_RECOVERY.md`](docs/FORWARD_RECOVERY.md).
 **Forward-query limits (separate addition).** A full-history rational dual certifies a
 [robust obstruction](docs/ROBUST_FORWARD_OBSTRUCTION.md) to the sharp high-score guarantee with at
 most three active forward calls, including score-selected controllers with fixed or preselected
-random order and arbitrary intermediate controller processing. At `f = 0.9` every such controller
-has `r ≤ 1692197/2000000 < 0.85`. It does **not** exclude every finite-query algorithm; four active
-calls have not been shown sufficient. The [finite-query model](docs/FORWARD_QUERY_MODEL.md) states
-the controller and target access explicitly. This does not change the existential sharp curve.
+random order and arbitrary intermediate controller processing. Precisely: a *constructed* instance
+at `f = 0.9` forces every such controller to satisfy `r ≤ 1692197/2000000 < 0.85`, and a
+corresponding adversarial family gives the obstruction for every `f ∈ [0.9, 1)` (the statement is
+"there exists an instance on which every controller is bounded," not "every instance at that score
+is bounded" — a high-score instance with a perfect controller can also exist). It does **not**
+exclude every finite-query algorithm; four active calls have not been shown sufficient. The
+[finite-query model](docs/FORWARD_QUERY_MODEL.md) states the controller and target access
+explicitly. This does not change the existential sharp curve.
 
 ## Verify
 

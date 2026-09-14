@@ -34,6 +34,34 @@ require(zero(Cs-s.Rational(2,3)*(1-s.I)*I),'SCALAR_H01')
 absB2=s.simplify(k*k*Cs[0,0]*s.conjugate(Cs[0,0]))
 require(absB2==s.Rational(1,2) and absB2>s.Rational(1,4),'ALL_CONSTANT_SCALINGS_FAIL')
 require(zero(Hs*Hs-s.Rational(8,9)*s.eye(4)),'SCALAR_VALID_COMPLETION')
+
+# Instance-quantifier witness for the robust obstruction, and the p-vs-f distinction.
+# The obstruction bounds every controller ON A CONSTRUCTED INSTANCE; it does NOT bound
+# every instance at that score. Here is an instance at measured score f=9/10 on which a
+# controller reaches r=1 > alpha=1692197/2000000. Everything is DERIVED, not asserted:
+# p from K, r from the balanced isometries, f from the ideal target and the test decoder.
+def blk(a,b,c,d):
+ return s.Matrix(s.BlockMatrix([[a,b],[c,d]]))
+Uce,Vce=X,Z                                   # rho_AM = Phi+, U=X, V=Z
+Lce=s.kronecker_product(I,I)+s.kronecker_product(X,Uce)+s.kronecker_product(Z,Vce)
+Kce=Lce.conjugate().T*Lce/9
+p_ce=s.nsimplify(s.trace(Kce*Phi))            # support score p = Tr(K rho)
+Pp=(I+Vce)/2;Nn=(I-Vce)/2                      # balanced two-query isometry blocks
+E00=Pp.conjugate().T*Pp/2;E11=Nn.conjugate().T*Nn/2;E01=Pp.conjugate().T*(Uce+Uce.conjugate().T)*Nn/4
+Ece=blk(E00,E01,E01.conjugate().T,E11)
+r_ce=s.nsimplify(s.trace(Ece*Phi))            # achieved balanced recovery r = Tr(E rho)
+Xout=s.kronecker_product(I,X)                  # test decoder D(s)=9/10 s + 1/10 X s X on the output
+Dec=s.Rational(9,10)*Phi+s.Rational(1,10)*(Xout*Phi*Xout)
+f_ce=s.nsimplify(s.trace(Phi*Dec))            # measured score f = <Omega|D(Omega)|Omega>
+require(p_ce==1,'CE_SUPPORT_SCORE')
+require(r_ce==1,'CE_BALANCED_RECOVERY')
+require(f_ce==s.Rational(9,10),'CE_MEASURED_SCORE')
+require(f_ce<p_ce,'CE_F_BELOW_P')             # f<=p, strictly here
+require(r_ce==(9*p_ce-1)/8,'CE_EQUALITY_USES_P')          # r=(9p-1)/8, NOT (9f-1)/8
+require((9*f_ce-1)/8==s.Rational(71,80),'CE_F_EXPRESSION') # (9f-1)/8=71/80 < r
+require(r_ce>s.Rational(1692197,2000000),'CE_EXCEEDS_ROBUST_ALPHA')  # instance-specific bound
+
 print('PASS Bell-transpose, full Pauli twirl, exact affine-deficit dilution')
 print('PASS exact ideal completion and obstruction to the two naive fixed-offdiagonal Ando substitutions')
 print('PASS no universal constant Q01=k H01: ideal forces k=3/4, scalar instance violates normalized PSD')
+print('PASS instance-quantifier witness: at f=9/10 an instance has p=1, r=(9p-1)/8=1 > alpha; r != (9f-1)/8=71/80')
